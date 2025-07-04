@@ -6,7 +6,7 @@ const Header = ({ setMessages }) => {
 		<header className="w-full h-20 flex flex-row items-center gap-10 px-10 font-satoshi">
 			<h1 className="font-extrabold text-4xl w-fit flex items-center">
 				<LiaCheeseSolid />
-				&nbsp;<span className="gradient">Serowisor</span>&nbsp;
+				&nbsp;<span className="gradient">Asystent</span>&nbsp;
 				<LiaCheeseSolid />
 			</h1>
 			<div className="flex justify-end w-full text-end">
@@ -15,7 +15,7 @@ const Header = ({ setMessages }) => {
 					value="Nowy Chat"
 					onClick={(e) => {
 						e.preventDefault();
-						setMessages([]);
+						setMessages();
 					}}
 					className="btn ml-10"
 				/>

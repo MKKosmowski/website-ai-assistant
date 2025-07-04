@@ -8,15 +8,26 @@ import Header from "@components/Header";
 
 const Home = () => {
 	const [messages, setMessages] = useState([]);
+	const [contextHistory, setContextHistory] = useState([]);
+
+	const clearChat = () => {
+		setMessages([]);
+		setContextHistory([]);
+	};
 
 	return (
 		<div>
-			<Header setMessages={setMessages} />
+			<Header setMessages={clearChat} />
 
 			<main>
 				<Chat messages={messages} />
 
-				<Form messages={messages} setMessages={setMessages} />
+				<Form
+					messages={messages}
+					setMessages={setMessages}
+					contextHistory={contextHistory}
+					setContextHistory={setContextHistory}
+				/>
 			</main>
 		</div>
 	);

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const Form = ({ messages, setMessages }) => {
+const Form = ({ messages, setMessages, contextHistory, setContextHistory }) => {
 	const [prompt, setPrompt] = useState("");
 	const [valInfo, setValInfo] = useState("");
 	const [wait, setWait] = useState(false);
@@ -15,6 +15,7 @@ const Form = ({ messages, setMessages }) => {
 		setWait(true);
 		setPrompt("");
 		setMessages((prev) => [...prev, { role: "user", content: prompt }]);
+		setContextHistory((prev) => [...prev, { role: "user", content: prompt }]);
 	}
 
 	useEffect(() => {
@@ -24,19 +25,17 @@ const Form = ({ messages, setMessages }) => {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ history: messages }),
+				body: JSON.stringify({ history: contextHistory }),
 			});
 
-			const data = await result.json();
-			setMessages((prev) => [
-				...prev,
-				{ role: "assistant", content: data.answer },
-			]);
+			const { answer, history } = await result.json();
+			setMessages((prev) => [...prev, { role: "assistant", content: answer }]);
+			setContextHistory(history);
 
 			setWait(false);
 		};
 
-		if (messages != [] && messages[messages.length - 1]?.role == "user") {
+		if (messages.length > 0 && messages[messages.length - 1]?.role === "user") {
 			getAIAnswer();
 		}
 	}, [messages]);

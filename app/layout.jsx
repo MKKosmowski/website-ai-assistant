@@ -1,7 +1,7 @@
 import "@styles/globals.css";
 
 export const metadata = {
-	title: "Ser GPT",
+	title: "Asystent AI",
 	description: "Sztuczna Inteligencja pomagająca w pracy w firmie.",
 };
 
