@@ -16,19 +16,15 @@ const Home = () => {
 	};
 
 	return (
-		<div>
+		<div className="flex flex-col h-screen">
 			<Header setMessages={clearChat} />
-
-			<main>
-				<Chat messages={messages} />
-
-				<Form
-					messages={messages}
-					setMessages={setMessages}
-					contextHistory={contextHistory}
-					setContextHistory={setContextHistory}
-				/>
-			</main>
+			<Chat messages={messages} />
+			<Form
+				messages={messages}
+				setMessages={setMessages}
+				contextHistory={contextHistory}
+				setContextHistory={setContextHistory}
+			/>
 		</div>
 	);
 };

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { IoSend } from "react-icons/io5";
 
 const Form = ({ messages, setMessages, contextHistory, setContextHistory }) => {
 	const [prompt, setPrompt] = useState("");
@@ -45,48 +46,49 @@ const Form = ({ messages, setMessages, contextHistory, setContextHistory }) => {
 	}, [prompt]);
 
 	return (
-		<section className="mt-10">
-			<div
-				className=" mb-10 w-fit mx-auto py-10 px-5
-				rounded-xl border border-gray-200 bg-white/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-5 fixed left-[50vw] translate-x-[-50%] bottom-10"
-			>
-				<form
-					action=""
-					className="flex flex-row justify-center items-center gap-5"
-				>
-					<textarea
-						type="text"
-						value={prompt}
-						onChange={(e) => {
-							setPrompt(e.target.value);
-						}}
-						className="w-[30vw] p-3 font-satoshi rounded-xl resize-y text-lg"
-						disabled={wait}
-						placeholder="Zadaj pytanie..."
-					/>
-
-					<input
-						type="submit"
-						value="Prześlij"
-						onClick={(e) => {
+		<section className="fixed bottom-0 left-0 right-0 w-full pointer-events-none flex justify-center">
+			<div className="w-full max-w-3xl p-4 pointer-events-auto">
+				<div className="rounded-lg bg-gray-900/80 backdrop-blur-sm border border-gray-700 shadow-2xl">
+					<form
+						onSubmit={(e) => {
 							e.preventDefault();
 							query(prompt);
 						}}
-						className="btn"
-					/>
-				</form>
-
-				{valInfo != "" && !wait && (
-					<div className="mt-5 text-red-600 font-bold text-center">
-						{valInfo}
-					</div>
-				)}
-
-				{wait && (
-					<div className="mt-5 text-orange-600 font-bold text-center">
-						Oczekiwanie na odpowiedź...
-					</div>
-				)}
+						className="relative flex items-center p-4 gap-4"
+					>
+						<textarea
+							value={prompt}
+							onChange={(e) => setPrompt(e.target.value)}
+							onKeyDown={(e) => {
+								if (e.key === "Enter" && !e.shiftKey) {
+									e.preventDefault();
+									query(prompt);
+								}
+							}}
+							className="prompt_input"
+							disabled={wait}
+							placeholder="Zadaj pytanie..."
+							rows={1}
+						/>
+						<button
+							type="submit"
+							disabled={wait || !prompt.trim()}
+							className="p-2 rounded-md bg-blue-600 text-white transition-colors disabled:bg-gray-600 disabled:cursor-not-allowed"
+						>
+							<IoSend size={20} />
+						</button>
+					</form>
+					{valInfo && !wait && (
+						<p className="pt-0 p-2 text-red-400 text-sm text-center">
+							{valInfo}
+						</p>
+					)}
+					{wait && (
+						<p className="pt-0 p-2 text-blue-400 text-sm text-center animate-pulse">
+							Oczekiwanie na odpowiedź...
+						</p>
+					)}
+				</div>
 			</div>
 		</section>
 	);
